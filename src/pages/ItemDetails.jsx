@@ -81,7 +81,7 @@ const ItemDetails = () => {
     };
 
     if (isLoading) {
-        return <p>Loading...</p>;
+        return <p className='text-white text-xs font-semibold text-center mt-[15%]'>Loading Posts please wait...</p>;
     }
 
     if (error) {

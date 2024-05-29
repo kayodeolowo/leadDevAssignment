@@ -29,7 +29,7 @@ const Home = () => {
 
     return (
         <div className='w-[95%] xl:w-[70%] mx-auto'>
-            {isLoading && <p className='text-white'>Loading...</p>}
+            {isLoading && <p className='text-white text-xs font-semibold text-center mt-[15%]'>Loading Posts please wait...</p>}
             {error && <p className='text-red-500'>Error loading data</p>}
             {!isLoading && !error && paginatedItems.length === 0 && <p className='text-white'>No data available</p>}
             {paginatedItems.map(item => (
