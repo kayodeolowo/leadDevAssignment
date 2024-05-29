@@ -9,7 +9,7 @@ const itemSlice = createSlice({
     name: 'items',
     initialState: {
         isLoading: false,
-        data: null,
+        data: [],
         error: false
     },
     extraReducers: (builder) => {
