@@ -35,8 +35,8 @@ const Home = () => {
             {paginatedItems.map(item => (
                 <Link to={`/item/${item.id}`} key={item.id}> 
                     <div className='text-white border rounded-md p-4 border-gray-600 bg-[#171923] mt-8'>
-                        <h1 className='text-lg font-semibold'>{item.title}</h1>
-                        <p>{item.body}</p>
+                        <h1 className='text-lg font-bold'>{item.title}</h1>
+                        <p className='mt-2 text-sm text-gray-300'>{item.body}</p>
                     </div>
                 </Link>
             ))}
