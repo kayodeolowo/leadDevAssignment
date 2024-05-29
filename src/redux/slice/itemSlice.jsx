@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchItems = createAsyncThunk("fetchItems", async () => {
-    const response = await fetch('https://api.restful-api.dev/objects');
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts/');
     return response.json();
 });
 

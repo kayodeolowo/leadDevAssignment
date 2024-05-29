@@ -8,7 +8,7 @@ const Home = () => {
     const dispatch = useDispatch();
     const { data, isLoading, error } = useSelector((state) => state.items);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
+    const itemsPerPage = 10;
 
     useEffect(() => {
         dispatch(fetchItems());
@@ -16,68 +16,38 @@ const Home = () => {
 
     const handleNextPage = () => {
         setCurrentPage((prevPage) => prevPage + 1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const handlePreviousPage = () => {
         setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedItems = data.slice(startIndex, startIndex + itemsPerPage);
 
     return (
-        <div className='w-[95%] mx-auto'>
-            <p className='text-white'>{isLoading && <p>Loading...</p>}</p>
-            {error && <p>Error loading data</p>}
-            {!isLoading && !error && paginatedItems.length === 0 && <p>No data available</p>}
-
-            <div className="overflow-x-auto border-2 rounded-lg border-[#323A49] bg-[#040415] mt-10">
-                <div className="min-w-full inline-block align-middle">
-                    <div className="overflow-hidden">
-                        <table className="min-w-full">
-                            <thead>
-                                <tr className='bg-[#464667] pt-10 text-gray-300'>
-                                    <th scope="col" className="px-6 py-3 text-start text-sm font-medium">Name</th>
-                                    <th scope="col" className="px-6 py-3 text-start text-sm font-medium">Generation</th>
-                                    <th scope="col" className="px-6 py-3 text-start text-sm font-medium">Price</th>
-                                    <th scope="col" className="px-6 py-3 text-start text-sm font-medium">Capacity</th>
-                                </tr>
-                            </thead>
-                            <tbody className='divide-gray-500 divide-y'>
-                                {paginatedItems.map(item => (
-                                    <tr key={item.id} className='hover:bg-[#25253a]'>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                                            <Link to={`/item/${item.id}`} className='block'>
-                                                {item.name}
-                                            </Link>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                                            <Link to={`/item/${item.id}`} className='block'>
-                                                {item.data?.generation || '-'}
-                                            </Link>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                                            <Link to={`/item/${item.id}`} className='block'>
-                                                {item.data?.price || '-'}
-                                            </Link>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                                            <Link to={`/item/${item.id}`} className='block'>
-                                                {item.data?.capacity || item.data?.["capacity GB"] || '-'}
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+        <div className='w-[95%] xl:w-[70%] mx-auto'>
+            {isLoading && <p className='text-white'>Loading...</p>}
+            {error && <p className='text-red-500'>Error loading data</p>}
+            {!isLoading && !error && paginatedItems.length === 0 && <p className='text-white'>No data available</p>}
+            {paginatedItems.map(item => (
+                <Link to={`/item/${item.id}`} key={item.id}> 
+                    <div className='text-white border rounded-md p-4 border-gray-600 bg-[#171923] mt-8'>
+                        <h1 className='text-lg font-semibold'>{item.title}</h1>
+                        <p>{item.body}</p>
                     </div>
-                </div>
-            </div>
-
-            <div className='text-white mt-4 flex items-center space-x-4 bg-[#464667] px-4 py-1 rounded w-fit'>
-                <button onClick={handlePreviousPage} disabled={currentPage === 1}><MdOutlineArrowBackIos className='hover:cursor-pointer' /></button>
-                <span> Page {currentPage} </span>
-                <button onClick={handleNextPage} disabled={startIndex + itemsPerPage >= data.length}><MdOutlineArrowForwardIos className='hover:cursor-pointer' /></button>
+                </Link>
+            ))}
+            <div className='mb-20 text-white mt-6 flex items-center space-x-4 bg-[#464667] px-4 py-1 rounded w-fit'>
+                <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+                    <MdOutlineArrowBackIos className='hover:cursor-pointer' />
+                </button>
+                <span>Page {currentPage}</span>
+                <button onClick={handleNextPage} disabled={startIndex + itemsPerPage >= data.length}>
+                    <MdOutlineArrowForwardIos className='hover:cursor-pointer' />
+                </button>
             </div>
         </div>
     );
